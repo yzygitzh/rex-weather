@@ -3,8 +3,6 @@ package mu.node.rexweather.app;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -14,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-//import org.apache.http.HttpException;
 
 import com.github.privacystreams.location.LatLng;
 
@@ -193,18 +189,13 @@ public class WeatherActivity extends Activity {
         private void updateWeather() {
             mSwipeRefreshLayout.setRefreshing(true);
 
-            //final LocationManager locationManager = (LocationManager) getActivity()
-            //        .getSystemService(Context.LOCATION_SERVICE);
-            //final LocationService locationService = new LocationService(locationManager);
             final LocationService locationService = new LocationService(getActivity());
 
             // Get our current location.
             final Observable fetchDataObservable = locationService.getLocation()
                     .timeout(LOCATION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                    //.flatMap(new Func1<Location, Observable<HashMap<String, WeatherForecast>>>() {
                     .flatMap(new Func1<LatLng, Observable<HashMap<String, WeatherForecast>>>() {
                         @Override
-                        //public Observable<HashMap<String, WeatherForecast>> call(final Location location) {
                         public Observable<HashMap<String, WeatherForecast>> call(final LatLng latLng) {
                             final WeatherService weatherService = new WeatherService();
                             final double longitude = latLng.getLongitude();

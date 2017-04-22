@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 21
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:21.+'
+    compile 'com.android.support:support-v4:25.+'
     compile 'io.reactivex:rxjava:1.0.+'
     compile 'io.reactivex:rxandroid:0.23.+'
     compile 'com.squareup.retrofit:retrofit:1.8.+'
@@ -32,4 +32,8 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.+'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.5@jar'
     compile 'com.github.privacystreams:privacystreams-core:0.1.1'
+}
+
+repositories {
+    jcenter()
 }
