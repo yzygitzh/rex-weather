@@ -1,8 +1,10 @@
 package mu.node.rexweather.app.Services;
 
+import android.accounts.NetworkErrorException;
+
 import com.google.gson.annotations.SerializedName;
 
-import org.apache.http.HttpException;
+//import org.apache.http.HttpException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ import rx.functions.Func1;
 public class WeatherService {
     // We are implementing against version 2.5 of the Open Weather Map web service.
     private static final String WEB_SERVICE_BASE_URL = "http://api.openweathermap.org/data/2.5";
-    private static final String API_KEY = "insert your api key here";
+    private static final String API_KEY = "7ea88c353a08f3c9a4aa52d99f072256";
     private final OpenWeatherMapWebService mWebService;
 
     public WeatherService() {
@@ -127,7 +129,8 @@ public class WeatherService {
                 return Observable.just(this);
             } else {
                 return Observable.error(
-                        new HttpException("There was a problem fetching the weather data."));
+                        //new HttpException("There was a problem fetching the weather data."));
+                        new NetworkErrorException("There was a problem fetching the weather data."));
             }
         }
     }

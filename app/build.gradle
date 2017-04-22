@@ -31,4 +31,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.1.+'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.+'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.5@jar'
+    compile 'com.github.privacystreams:privacystreams-core:0.1.1'
 }

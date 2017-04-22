@@ -15,7 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.apache.http.HttpException;
+//import org.apache.http.HttpException;
+
+import com.github.privacystreams.location.LatLng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -191,19 +193,22 @@ public class WeatherActivity extends Activity {
         private void updateWeather() {
             mSwipeRefreshLayout.setRefreshing(true);
 
-            final LocationManager locationManager = (LocationManager) getActivity()
-                    .getSystemService(Context.LOCATION_SERVICE);
-            final LocationService locationService = new LocationService(locationManager);
+            //final LocationManager locationManager = (LocationManager) getActivity()
+            //        .getSystemService(Context.LOCATION_SERVICE);
+            //final LocationService locationService = new LocationService(locationManager);
+            final LocationService locationService = new LocationService(getActivity());
 
             // Get our current location.
             final Observable fetchDataObservable = locationService.getLocation()
                     .timeout(LOCATION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                    .flatMap(new Func1<Location, Observable<HashMap<String, WeatherForecast>>>() {
+                    //.flatMap(new Func1<Location, Observable<HashMap<String, WeatherForecast>>>() {
+                    .flatMap(new Func1<LatLng, Observable<HashMap<String, WeatherForecast>>>() {
                         @Override
-                        public Observable<HashMap<String, WeatherForecast>> call(final Location location) {
+                        //public Observable<HashMap<String, WeatherForecast>> call(final Location location) {
+                        public Observable<HashMap<String, WeatherForecast>> call(final LatLng latLng) {
                             final WeatherService weatherService = new WeatherService();
-                            final double longitude = location.getLongitude();
-                            final double latitude = location.getLatitude();
+                            final double longitude = latLng.getLongitude();
+                            final double latitude = latLng.getLatitude();
 
                             return Observable.zip(
                                     // Fetch current and 7 day forecasts for the location.
@@ -262,8 +267,8 @@ public class WeatherActivity extends Activity {
                                     if (error instanceof TimeoutException) {
                                         Crouton.makeText(getActivity(),
                                                 R.string.error_location_unavailable, Style.ALERT).show();
-                                    } else if (error instanceof RetrofitError
-                                            || error instanceof HttpException) {
+                                    } else if (error instanceof RetrofitError) {
+                                            //|| error instanceof HttpException) {
                                         Crouton.makeText(getActivity(),
                                                 R.string.error_fetch_weather, Style.ALERT).show();
                                     } else {
