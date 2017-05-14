@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.privacystreams.location.LatLng;
+import com.github.privacystreams.location.LatLon;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -194,12 +194,12 @@ public class WeatherActivity extends Activity {
             // Get our current location.
             final Observable fetchDataObservable = locationService.getLocation()
                     .timeout(LOCATION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                    .flatMap(new Func1<LatLng, Observable<HashMap<String, WeatherForecast>>>() {
+                    .flatMap(new Func1<LatLon, Observable<HashMap<String, WeatherForecast>>>() {
                         @Override
-                        public Observable<HashMap<String, WeatherForecast>> call(final LatLng latLng) {
+                        public Observable<HashMap<String, WeatherForecast>> call(final LatLon latLon) {
                             final WeatherService weatherService = new WeatherService();
-                            final double longitude = latLng.getLongitude();
-                            final double latitude = latLng.getLatitude();
+                            final double longitude = latLon.getLongitude();
+                            final double latitude = latLon.getLatitude();
 
                             return Observable.zip(
                                     // Fetch current and 7 day forecasts for the location.

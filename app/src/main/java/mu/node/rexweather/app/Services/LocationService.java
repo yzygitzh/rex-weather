@@ -6,7 +6,7 @@ import com.github.privacystreams.core.UQI;
 import com.github.privacystreams.core.exceptions.PSException;
 import com.github.privacystreams.core.purposes.Purpose;
 import com.github.privacystreams.location.Geolocation;
-import com.github.privacystreams.location.LatLng;
+import com.github.privacystreams.location.LatLon;
 import com.github.privacystreams.utils.Globals;
 
 import rx.Observable;
@@ -25,14 +25,14 @@ public class LocationService {
         mPurpose = Purpose.FEATURE("Examples");
     }
 
-    public Observable<LatLng> getLocation() {
-        return Observable.create(new Observable.OnSubscribe<LatLng>() {
+    public Observable<LatLon> getLocation() {
+        return Observable.create(new Observable.OnSubscribe<LatLon>() {
             @Override
-            public void call(final Subscriber<? super LatLng> subscriber) {
+            public void call(final Subscriber<? super LatLon> subscriber) {
                 Globals.LocationConfig.useGoogleService = false;
                 try {
-                    LatLng latLng = mUqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_EXACT), mPurpose).asItem().getValueByField("lat_lng");
-                    subscriber.onNext(latLng);
+                    LatLon latLon = mUqi.getData(Geolocation.asCurrent(Geolocation.LEVEL_CITY), mPurpose).asItem().getValueByField("lat_lon");
+                    subscriber.onNext(latLon);
                     subscriber.onCompleted();
                 } catch (PSException e) {
                     e.printStackTrace();
